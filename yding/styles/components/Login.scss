@@ -1,0 +1,30 @@
+body {
+    background-color: #f0f0f0;
+}
+
+.login-div {
+    margin: 20px 10px 0 10px;
+    height: 100%;
+
+    .login-title {
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 500;
+    } 
+
+    .form-button {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+
+        .button-login {
+            width: 100px;
+            border-radius: 17px;
+        }
+    }
+}
+
+
+
