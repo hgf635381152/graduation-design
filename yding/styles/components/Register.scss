@@ -3,11 +3,11 @@ body {
 }
 
 .register-div {
-    margin: 20px 10px 0 10px;
+    margin: 20px 15px 35px 10px;
     height: 100%;
 
     .register-title {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         text-align: center;
         font-size: 1.4rem;
         font-weight: 500;
@@ -23,6 +23,10 @@ body {
             width: 100px;
             border-radius: 17px;
         }
+    }
+    
+    .ant-form-item {
+        margin-bottom: 12px;
     }
 }
 

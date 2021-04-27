@@ -1,0 +1,235 @@
+.main-body {
+    min-width: 1520px;
+    height: 100vh;
+    background-color: #F8F8F8;
+    overflow-x: scroll;
+
+    .main-top {
+        position: relative;
+        display: flex;
+        height: 50px;
+        min-width: 500px;
+        margin: 0 12%;
+        padding: 8px 0;
+        align-items: center;
+        font-size: 16px;
+
+        .top-user {
+            position: absolute;
+            right: 0;
+
+            .top-name {
+                padding-right: 20px;
+                color: #02B6FD
+            }
+
+            .top-out {
+                color: #999999;
+            }
+        }
+    }
+
+    .main-search {
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-width: 500px;
+        height: 120px;
+        padding: 0 12%;
+        background-color: #fff;
+
+        .search-img {
+            position: relative;
+            top: -5px;
+        }
+        
+        .search-title {
+            position: relative;
+            top: -5px;
+            font-size: 35px;
+            font-weight: 500;
+            margin-left: 3px;
+        }
+
+        .title-text {
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .search-input {
+            position: relative;
+            width: 500px;
+            top: -3px;
+            left: 35px;
+            
+            .ant-input-search-button {
+                width: 60px;
+            }
+        }
+    }
+
+    .main-breadcrumb {
+        margin: 12px 12%;
+    }
+
+    .main-content {
+        display: flex;
+        margin: 0 12%;
+        min-width: 1165px;
+        // background-color: #fff;
+
+        .content-left {
+            width: 900px;
+            margin-right: 15px;
+
+            .store-sort {
+                display: flex;
+                position: relative;
+                height: 100px;
+                margin-bottom: 15px;
+                padding: 10px 20px;
+                background-color: #fff;
+                border: 1px #E5E5E5 solid;
+                border-radius: 4px;
+
+                .sort-left {
+                    display: flex;
+                    align-items: center;
+                    width: 65px;
+                    height: 20px;
+                    margin: 2px 0;
+                }
+
+                .sort-middle {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 45px;
+                    height: 20px;
+                    margin: 3px 30px 2px 0px;
+                    border-radius: 10px;
+                    cursor:pointer
+                }
+
+                .sort-right {
+                    display: flex;
+                    flex-wrap: wrap;
+                    width: 720px;
+
+                    .sort-li {
+                        min-width: 119px;
+                        height: 23px;
+                        margin: 2px 0;
+
+                        .li-on {
+                            display: inline-block;
+                            line-height: 19px;
+                            height: 20px;
+                            padding: 0 10px;
+                            border-radius: 10px;
+                            color: #000;
+                        }
+
+                        .select-sort {
+                            background-color: #13D1BE;
+                            color: #fff;
+                        }
+                    }
+                }
+
+                .select-sort {
+                    background-color: #13D1BE;
+                    color: #fff;
+                }
+            }
+
+            .store-list {
+                padding: 15px 20px;
+                background-color: #fff;
+                border: 1px #E5E5E5 solid;
+                border-radius: 4px;
+
+                .list-title {
+                    margin-bottom: 15px;
+                }
+
+                .store-item {
+                    display: flex;
+                    padding: 15px 0;
+                    border-top: 1px #E5E5E5 solid;
+                    cursor: pointer;
+
+                    .item-img {
+                        margin-right: 20px;
+                    }
+
+                    .store-info {
+                        padding: 5px 0;
+                        font-size: 13px;
+
+                        .info-name {
+                            font-size: 16px;
+                            font-weight: 550;
+                            margin-bottom: 6px;
+                        }
+
+                        .info-score {
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 3px;
+
+                            .img-star {
+                                margin-left: 1px;
+                                margin-right: 10px;
+                            }
+                        }
+
+                        .info-address {
+                            color: #666666;
+                            margin-bottom: 6px;
+                        }
+
+                        .info-average {
+                            color: #666666;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content-right {
+            width: 250px;
+            background-color: #fff;
+            border: 1px #E5E5E5 solid;
+            border-radius: 4px;
+            padding: 10px 18px;
+
+            .rec-title {
+                font-size: 16px;
+                font-weight: 550;
+                margin-bottom: 10px;
+            }
+
+            .rec-item {
+                margin-bottom: 20px;
+                cursor: pointer;
+
+                .item-img {
+                    border-radius: 4px;
+                }
+
+                .item-name {
+                    margin-top: 5px;
+                }
+
+                .item-price {
+                    color: #FF6600;
+                    
+                    .price-num {
+                        font-size: 22px;
+                    }
+                }
+            }
+        }
+    }
+}

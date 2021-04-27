@@ -1,30 +1,26 @@
-const User = require('../models/user')
+const Store = require('../models/store')
 const config = require('../../config');
 const { stringify } = require('uuid');
 
 // 登录
-const Login = async (ctx) => {
+const getStoreList = async (ctx) => {
     console.log(ctx.request.body);
     let req = ctx.request.body
-    let str = '账号或密码错误'
-    let uname = ''
-    const user = await User.find({})
-    console.log(user);
-    user.map((item) => {
-        if (item.userId == req.userId && item.password == req.password) {
-            str = '登录成功'
-            uname = item.username
-        }
-    })
+    let store = []
+    if (req.sort == '') {
+        store = await Store.find({area: req.area})
+    }else {
+        store = await Store.find({ $and: [ {area: req.area}, {dishsort: req.sort} ] })
+    }
+    console.log(store);
     ctx.body = {
-        type: str,
-        name: uname,
-        id: req.userId
+        type: true,
+        storelist: store
     }
 }
 
 // 注册
-const Register = async (ctx) => {
+const getStoreDetail = async (ctx) => {
     console.log(ctx.request.body);
     let req = ctx.request.body
     let Flag = true
@@ -50,6 +46,6 @@ const Register = async (ctx) => {
 }
 
 module.exports = {
-    Login,
-    Register
+    getStoreList,
+    getStoreDetail
 }

@@ -3,7 +3,7 @@ body {
 }
 
 .login-div {
-    margin: 20px 10px 0 10px;
+    margin: 20px 15px 0 10px;
     height: 100%;
 
     .login-title {
@@ -23,6 +23,10 @@ body {
             width: 100px;
             border-radius: 17px;
         }
+    }
+
+    .ant-form-item {
+        margin-bottom: 20px;
     }
 }
 

@@ -33,18 +33,18 @@
         display: flex;
         position: absolute;
         min-width: 320px;
-        min-height: 300px;
+        min-height: 290px;
         top: 15%;
         right: 14%;
-        border-radius: 10px;
+        border-radius: 5px;
         justify-content: center;
         background-color: #F9F9F9;
         opacity: 0.97;
 
         .content-register {
             position: absolute;
-            bottom: 20px;
-            right: 15px;
+            bottom: 12px;
+            right: 10px;
         }
     }
 
