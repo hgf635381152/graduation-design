@@ -25,18 +25,20 @@ const mapState = (state) => ({
 
 function Main() {
 
-    // const name = sessionStorage.getItem('uName')
+    const name = sessionStorage.getItem('uName')
+    const isLogin = sessionStorage.getItem('isLogin')
     const router = useRouter()
-    const { uid, uname, islogin } = useMappedState(mapState)
-    const [ userName, setUserName ] = useState(uname)
+    // const { uid, uname, islogin } = useMappedState(mapState)
+    const [ userName, setUserName ] = useState(name)
     const [ area, setArea ] = useState('青山湖区')
     const [ breadcrumb, setBreadcrumb ] = useState('')
     const [ sortList, setSortList ] = useState(sort)
     const [ sortId, setSortId ] = useState(-1)
     const [ storeList, setStoreList ] = useState([])
+    const [ likeList, setLikeList ] = useState([])
 
 
-    console.log(uid, uname, islogin)
+    // console.log(uid, uname, islogin)
 
     const handleChange = useCallback((value) => {
         console.log(value)
@@ -84,10 +86,34 @@ function Main() {
         )
     }, [])
 
+    const getLikeList = useCallback((area, breadcrumb) => {
+        axios({
+            method: 'post',
+            url: servicePath.getLikeList,
+            data: { area: area, sort: breadcrumb },
+            withCredentials: true
+        })
+        .then(
+            res => {
+                if (res.data.type) {
+                    console.log('111111111111111', res.data)
+                    setLikeList(res.data.likelist)
+                } else {
+                    console.log('暂无商家')
+                }
+            }
+        )
+    }, [])
+
+    const toStoreDetail = useCallback((id) => {
+        router.push(`/Store?id=${id}`)
+    }, [])
+
     useEffect(() => {
-        if (!islogin) {
-            // router.replace('/')
+        if (!isLogin) {
+            router.replace('/')
         }
+        getLikeList(area, breadcrumb)
     }, [])
 
     useEffect(() => {
@@ -159,7 +185,7 @@ function Main() {
                         {
                             storeList?.map((item, index) => {
                                 return (
-                                    <div className='store-item' key={item.storeId}>
+                                    <div className='store-item' key={item.storeId} onClick={() => toStoreDetail(item.storeId)}>
                                         <img className='item-img' src={item.img} width={220} height={125} />
                                         <div className='store-info'>
                                             <div className='info-name'>
@@ -178,40 +204,28 @@ function Main() {
                                     </div>
                                 )
                             })
-                        }
+                        }   
                     </div>
                 </div>
                 <div className='content-right'>
                     <div className='rec-title'>
                         猜你喜欢
                     </div>
-                    <div className='rec-item'>
-                        <img className='item-img' src='https://p1.meituan.net//biztone/163415968_1617077055621.jpeg@188w_106h_1e_1c' width={210} height={115} />
-                        <div className='item-name'>
-                            古乐牛香·鲜牛肉牛杂火锅（系马桩总店）
-                        </div>
-                        <div className='item-price'>
-                            ￥<span className='price-num'>85.0</span>
-                        </div>
-                    </div>
-                    <div className='rec-item'>
-                        <img className='item-img' src='https://p1.meituan.net//biztone/163415968_1617077055621.jpeg@188w_106h_1e_1c' width={210} height={115} />
-                        <div className='item-name'>
-                            古乐牛香·鲜牛肉牛杂火锅（系马桩总店）
-                        </div>
-                        <div className='item-price'>
-                            ￥<span className='price-num'>85.0</span>
-                        </div>
-                    </div>
-                    <div className='rec-item'>
-                        <img className='item-img' src='https://p1.meituan.net//biztone/163415968_1617077055621.jpeg@188w_106h_1e_1c' width={210} height={115} />
-                        <div className='item-name'>
-                            古乐牛香·鲜牛肉牛杂火锅（系马桩总店）
-                        </div>
-                        <div className='item-price'>
-                            ￥<span className='price-num'>85.0</span>
-                        </div>
-                    </div>
+                    {
+                        likeList?.map((item, index) => {
+                            return (
+                                <div className='rec-item' key={item.storeId}>
+                                    <img className='item-img' src={item.img} width={210} height={115} />
+                                    <div className='item-name'>
+                                        {item.storename}
+                                    </div>
+                                    <div className='item-price'>
+                                        ￥<span className='price-num'>{item.average}.0</span>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         </div>

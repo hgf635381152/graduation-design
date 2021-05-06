@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const StoreSchema = new Schema({
     storeId: {
-        type: Number
+        type: Number,
+        unique: true,
+        require: true
     },
     storename: {
         type: String

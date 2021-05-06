@@ -14,7 +14,8 @@ function Home() {
 
     const [isLogin, setIsLogin] = useState(true)
     const islogin = useRef(true)
-    const { uid } = useMappedState(mapState)
+    // const { uid } = useMappedState(mapState)
+    let uid = sessionStorage.getItem('uId') 
 
     console.log(uid)
 

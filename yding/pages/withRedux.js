@@ -1,60 +1,66 @@
-import { Component } from "react";
-import createMyStore from "../store/index";
+import React from 'react'
+import createMyStore from '../store/index'
 
-const isServer = typeof window === "undefined";
-const _REDUX_STORE_ = "_REDUX_STORE_";
+const isServer = typeof window === 'undefined'
+const __NEXT_REDUX_STORE__ = '__NEXT_REDUX_STORE__'
 
-/* 
-获取或创建一个store。每次进行后端渲染，都创建一个新的store，
-请求返回后的首次前端渲染，也会创建一个新的store，与流程示意图一致。
-*/
 function getOrCreateStore(initialState) {
     if (isServer) {
-        return createMyStore(initialState);
+        // 服务端每次执行都重新创建一个store
+        return createMyStore(initialState)
     }
-    if (!window[_REDUX_STORE_]) {
-        window[_REDUX_STORE_] = createMyStore(initialState);
+    // 在客户端执行这个方法的时候 优先返回window上已有的store
+    // 而不能每次执行都重新创建一个store 否则状态就无限重置了
+    if (!window[__NEXT_REDUX_STORE__]) {
+        window[__NEXT_REDUX_STORE__] = createMyStore(initialState)
     }
-    return window[_REDUX_STORE_];
+    return window[__NEXT_REDUX_STORE__]
 }
 
-
-function WithRedux(Comp) {
-    return class HOCComp extends Component {
+const C = Comp => {
+    class withReduxApp extends React.Component {
         constructor(props) {
-            super(props);
-            /* 利用初始化后的state创建store */
-            this.store = getOrCreateStore(props.initialState);
+            super(props)
+            // getInitialProps创建了store 这里为什么又重新创建一次？
+            // 因为服务端执行了getInitialProps之后 返回给客户端的是序列化后的字符串
+            // redux里有很多方法 不适合序列化存储
+            // 所以选择在getInitialProps返回initialReduxState初始的状态
+            // 再在这里通过initialReduxState去创建一个完整的store
+            this.reduxStore = getOrCreateStore(props.initialReduxState)
         }
-        static async getInitialProps(ctx) {
-            const MyStore = getOrCreateStore({
-                userId: '',
-                userName: '',
-                isLogin: false
-            });
-            /* 利用ctx把store传入App，在App中进行store的初始化 */
-            ctx.ReduxStore = MyStore;
-            let appProps = {
-            };
-            if (typeof Comp.getInitialProps === 'function') {
 
-                appProps = await Comp.getInitialProps(ctx);
-            }
-            /* 
-            store初始化后，使用store的getState()方法获取初始化后的state，放入到return的对象中，
-            return的对象会被序列化，存放在id为"__NEXT_DATA__"的script标签中，随服务端渲染出的HTML返回，
-            前端渲染时从props中取出此state，生成与后端一致的store。
-            */
-            return {
-                ...appProps,
-                initialState: MyStore.getState()
-            };
-        }
         render() {
-            /* 把constructor中生成的store通过props传到App中 */
-            return <Comp {...this.props} ReduxStore={this.store} />;
+            const { Component, pageProps, ...rest } = this.props
+            return (
+                <Comp
+                    {...rest}
+                    Component={Component}
+                    pageProps={pageProps}
+                    reduxStore={this.reduxStore}
+                />
+            )
         }
-    };
+    }
+
+    // 这个其实是_app.js的getInitialProps
+    // 在服务端渲染和客户端路由跳转时会被执行
+    // 所以非常适合做redux-store的初始化
+    withReduxApp.getInitialProps = async ctx => {
+        const reduxStore = getOrCreateStore()
+        ctx.reduxStore = reduxStore
+
+        let appProps = {}
+        if (typeof Comp.getInitialProps === 'function') {
+            appProps = await Comp.getInitialProps(ctx)
+        }
+
+        return {
+            ...appProps,
+            initialReduxState: reduxStore.getState(),
+        }
+    }
+
+    return withReduxApp
 }
 
-export default WithRedux;
+export default C

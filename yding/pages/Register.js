@@ -46,6 +46,7 @@ function Register(props) {
                         message.success(`注册成功, 您的账号为${res.data.id}, 请谨记`)
                         console.log('111111111111111', res.data)
                         dispatch({ type: 'userLogin', payload: res.data.id })
+                        sessionStorage.setItem('uId', res.data.id)
                         goRegister()
                     } else {
                         message.error('注册失败')

@@ -3,6 +3,7 @@ const cors = require('koa2-cors')
 const bodyParser = require('koa-bodyparser')
 const user_router = require('./routes/api/user_router')
 const store_router = require('./routes/api/store_router')
+const comment_router = require('./routes/api/comment_router')
 const mongoose = require('mongoose') // 做mongodb的连接
 const config = require('./config')
 
@@ -33,5 +34,6 @@ app.use(cors({
 app.use(bodyParser()) // 帮助koa解析参数
 app.use(user_router.routes())
 app.use(store_router.routes())
+app.use(comment_router.routes())
 
 app.listen(7001)

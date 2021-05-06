@@ -39,6 +39,9 @@ function Login(props) {
                     console.log('111111111111111', res.data)
                     dispatch({ type: 'userLogin', payload: { userId: res.data.id, userName: res.data.name, isLogin: true }})
                     router.push('/Main')
+                    sessionStorage.setItem('isLogin', true)
+                    sessionStorage.setItem('uName', res.data.name)
+                    sessionStorage.setItem('uId', res.data.id)
                 } else {
                     message.error('账号或密码错误')
                 }

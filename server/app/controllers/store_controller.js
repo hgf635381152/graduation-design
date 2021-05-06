@@ -2,7 +2,7 @@ const Store = require('../models/store')
 const config = require('../../config');
 const { stringify } = require('uuid');
 
-// 登录
+// 商铺列表
 const getStoreList = async (ctx) => {
     console.log(ctx.request.body);
     let req = ctx.request.body
@@ -19,33 +19,29 @@ const getStoreList = async (ctx) => {
     }
 }
 
-// 注册
+const getLikeList = async (ctx) => {
+    console.log(ctx.request.body);
+    let req = ctx.request.body
+    let store = await Store.find({})
+    ctx.body = {
+        type: true,
+        likelist: store
+    }
+}
+
+// 商铺详情
 const getStoreDetail = async (ctx) => {
     console.log(ctx.request.body);
     let req = ctx.request.body
-    let Flag = true
-    let str = '注册失败'
-    var id = Math.floor(Math.random()*1000000)
-    const user = await User.find({})
-    console.log(id, user)
-    while (Flag) {
-        Flag = false
-        id = Math.floor(Math.random()*1000000)
-        user.map((item) => {
-            if (item.userId == id) Flag = true 
-        })
-    }
-    console.log(id)
-    const result = await User.create({"userId": id, 'username': req.username, 'password': req.password, 'email': req.email, 'taste': req.taste})
-    console.log(id, result)
-    str = '注册成功'
+    let info = await Store.find({ storeId: req.id})
     ctx.body = {
-        type: str,
-        id: id
+        type: true,
+        info: info
     }
 }
 
 module.exports = {
     getStoreList,
+    getLikeList,
     getStoreDetail
 }
